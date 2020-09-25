@@ -1,17 +1,6 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": { "*": ["types/*"] },
-    "declaration": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "composite": true
-  },
-  "include": ["./src"],
-  "references": [
-    { "path": "../types" },
-    { "path": "../doc-html" },
-    { "path": "../adoc-utils" }
-  ]
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  }
 }
