@@ -11,12 +11,12 @@
     "./dist/asciidoctor.js": "./dist/asciidoctor.browser.js"
   },
   "scripts": {
-    "test": "npx jest .",
-    "ts:check": "npx tsc --noEmit -p .",
-    "lint": "npx eslint '**/*.{ts,tsx,js}'",
-    "lint:fix": "npm run lint -- --fix",
-    "format": "npx prettier \"**/*.{ts,tsx,js}\" --write",
-    "format:check": "npx prettier \"**/*.{ts,tsx,js}\" --check"
+    "test": "fldev test",
+    "test:watch": "fldev test:watch",
+    "lint": "fldev lint",
+    "lint:fix": "fldev lint:fix",
+    "ts:check": "fldev ts:check",
+    "format": "fldev format"
   },
   "dependencies": {
     "@asciidoctor/core": "^2.0.2",
@@ -28,21 +28,12 @@
     "uuid": "^3.3.3"
   },
   "devDependencies": {
+    "@friends-library/dev": "4.0.1",
     "@types/fs-extra": "^5.0.5",
+    "@types/jest": "^26.0.14",
     "@types/lodash": "^4.14.123",
     "@types/roman-numerals": "^0.3.0",
     "@types/uuid": "^3.4.5",
-    "strip-indent": "^3.0.0",
-    "@friends-library/eslint-plugin": "1.0.1",
-    "@typescript-eslint/eslint-plugin": "^4.2.0",
-    "@typescript-eslint/parser": "^4.2.0",
-    "eslint": "^7.9.0",
-    "eslint-config-prettier": "^6.12.0",
-    "eslint-plugin-no-only-tests": "^2.4.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "jest": ">=25.0.0",
-    "prettier": "^2.1.2",
-    "ts-jest": ">=25.0.0",
-    "typescript": ">=3.9.5"
+    "strip-indent": "^3.0.0"
   }
 }
