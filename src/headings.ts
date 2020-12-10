@@ -8,7 +8,7 @@ export function extractShortHeadings(adoc: Asciidoc): Map<string, string> {
   let match: RegExpExecArray | null = null;
   while ((match = regex.exec(adoc))) {
     const [, ref, short] = match;
-    headings.set(ref, adocFragmentToHtml(short));
+    headings.set(ref, adocFragmentToHtml(String(short)));
   }
   return headings;
 }
@@ -54,8 +54,8 @@ function parseHeading(text: string): Pick<DocSection['heading'], 'text' | 'seque
   return {
     text: adocFragmentToHtml(body || ``),
     sequence: {
-      type: type.replace(/^\w/, (c) => c.toUpperCase()),
-      number: Number.isNaN(+number) ? toArabic(number) : +number,
+      type: (type || ``).replace(/^\w/, (c) => c.toUpperCase()),
+      number: Number.isNaN(Number(number)) ? toArabic(String(number)) : Number(number),
     },
   };
 }

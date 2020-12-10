@@ -1,9 +1,10 @@
+import { describe, test, expect } from '@jest/globals';
 import { Asciidoc, Heading } from '@friends-library/types';
 import processDocument from '../process-document';
 
 function parse(adoc: Asciidoc): Heading {
   const { sections } = processDocument(adoc);
-  return sections[0].heading;
+  return sections[0]!.heading;
 }
 
 describe(`parsing headings`, () => {
