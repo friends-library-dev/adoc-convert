@@ -1,4 +1,5 @@
 import stripIndent from 'strip-indent';
+import { describe, jest, beforeEach, it, expect, test } from '@jest/globals';
 import processDocument from '../process-document';
 
 let mockCounter = 0;
@@ -15,13 +16,13 @@ describe(`createSourceSpec()`, () => {
   it(`turns adoc chapters into sections`, () => {
     const { sections } = processDocument(`== Ch1\n\nPara1.\n\n== Ch 2\n\nPara2.\n`);
     expect(sections).toHaveLength(2);
-    expect(sections[0].id).toBe(`section1`);
-    expect(sections[1].id).toBe(`section2`);
+    expect(sections[0]!.id).toBe(`section1`);
+    expect(sections[1]!.id).toBe(`section2`);
   });
 
   it(`entity followed by semicolon does not produce <dl>`, () => {
     const { sections } = processDocument(`== Ch1\n\nStayed at R. Jones\`';`);
-    expect(sections[0].html).not.toContain(`<dl>`);
+    expect(sections[0]!.html).not.toContain(`<dl>`);
   });
 
   test(`custom classes dont mess up sectioning`, () => {
@@ -36,9 +37,9 @@ describe(`createSourceSpec()`, () => {
       sections: [section],
     } = processDocument(`== Ch1\n\nPara1.`);
 
-    expect(section.html).toContain(`{% chapter-heading %}`);
-    expect(section.html).not.toContain(`Ch1`);
-    expect(section.html).not.toContain(`h2`);
+    expect(section!.html).toContain(`{% chapter-heading %}`);
+    expect(section!.html).not.toContain(`Ch1`);
+    expect(section!.html).not.toContain(`h2`);
   });
 
   it(`transfers heading style class to placeholder`, () => {
@@ -47,8 +48,8 @@ describe(`createSourceSpec()`, () => {
       sections: [section],
     } = processDocument(adoc);
 
-    expect(section.html).toContain(`{% chapter-heading, blurb %}`);
-    expect(section.html).not.toContain(` style-blurb`); // interferes with `first-chapter`
+    expect(section!.html).toContain(`{% chapter-heading, blurb %}`);
+    expect(section!.html).not.toContain(` style-blurb`); // interferes with `first-chapter`
   });
 
   it(`transfers heading style class to placeholder, even with id`, () => {
@@ -57,7 +58,7 @@ describe(`createSourceSpec()`, () => {
       sections: [section],
     } = processDocument(adoc);
 
-    expect(section.html).toContain(`{% chapter-heading, lol %}`);
+    expect(section!.html).toContain(`{% chapter-heading, lol %}`);
   });
 
   it(`extracts heading short text from adoc`, () => {
@@ -66,7 +67,7 @@ describe(`createSourceSpec()`, () => {
       sections: [section],
     } = processDocument(adoc);
 
-    expect(section.heading).toMatchObject({
+    expect(section!.heading).toMatchObject({
       id: `intro`,
       text: `Introduction`,
       shortText: `Intro`,
@@ -79,13 +80,13 @@ describe(`createSourceSpec()`, () => {
       sections: [section],
     } = processDocument(adoc);
 
-    expect(section.heading.shortText).toBe(`Intro`);
+    expect(section!.heading.shortText).toBe(`Intro`);
   });
 
   it(`extracts footnotes`, () => {
     const { sections, notes } = processDocument(`== Ch\n\nA caret^\nfootnote:[lol].`);
 
-    expect(sections[0].html).toContain(`<p>A caret{% note: uuid1 %}.</p>`);
+    expect(sections[0]!.html).toContain(`<p>A caret{% note: uuid1 %}.</p>`);
     expect(sections).toHaveLength(1);
     expect(notes.get(`uuid1`)).toEqual(`lol`);
   });
@@ -101,7 +102,7 @@ describe(`createSourceSpec()`, () => {
     const {
       sections: [section],
     } = processDocument(adoc);
-    expect(section.html).toContain(`<br class="m7"/><p>Foo.</p>\n<br class="m7"/>`);
+    expect(section!.html).toContain(`<br class="m7"/><p>Foo.</p>\n<br class="m7"/>`);
   });
 
   test(`blockquote tag gets mobi-7 br tag`, () => {
@@ -109,7 +110,7 @@ describe(`createSourceSpec()`, () => {
     const {
       sections: [section],
     } = processDocument(adoc);
-    expect(section.html).toContain(`<blockquote><br class="m7"/>`);
+    expect(section!.html).toContain(`<blockquote><br class="m7"/>`);
   });
 
   it(`adds m7 break to top of .discourse-part sections`, () => {
@@ -117,7 +118,7 @@ describe(`createSourceSpec()`, () => {
     const {
       sections: [section],
     } = processDocument(adoc);
-    expect(section.html).toContain(`<div class="discourse-part"><br class="m7"/>`);
+    expect(section!.html).toContain(`<div class="discourse-part"><br class="m7"/>`);
   });
 
   test(`caret-style footnote after inline class works`, () => {
@@ -134,7 +135,7 @@ describe(`createSourceSpec()`, () => {
       notes,
     } = processDocument(adoc);
 
-    expect(section.html).toContain(
+    expect(section!.html).toContain(
       `<span class="book-title">bar</span>{% note: uuid1 %}`,
     );
     expect(notes.get(`uuid1`)).toBe(`jim &#91;jam&#93;.`);
@@ -154,7 +155,7 @@ describe(`createSourceSpec()`, () => {
       notes,
     } = processDocument(adoc);
 
-    expect(section.html).not.toContain(`#Sewells History#]`);
+    expect(section!.html).not.toContain(`#Sewells History#]`);
     expect(notes.get(`uuid1`)).toBe(`<span class="book-title">Sewells History</span>`);
   });
 
@@ -166,7 +167,7 @@ describe(`createSourceSpec()`, () => {
       notes,
     } = processDocument(adoc);
 
-    expect(section.html).toContain(`Foo{% note: uuid1 %}\nbar.`);
+    expect(section!.html).toContain(`Foo{% note: uuid1 %}\nbar.`);
     expect(notes.get(`uuid1`)).toBe(`&#8212;<span class="book-title">title</span>`);
   });
 
@@ -185,8 +186,8 @@ describe(`createSourceSpec()`, () => {
       sections: [section],
     } = processDocument(adoc);
 
-    expect(section.html).toContain(`>Foo bar;&#8212;<`);
-    expect(section.html).toContain(`>So much baz!<`);
+    expect(section!.html).toContain(`>Foo bar;&#8212;<`);
+    expect(section!.html).toContain(`>So much baz!<`);
   });
 
   const removeParagraphClass = [
@@ -208,8 +209,8 @@ describe(`createSourceSpec()`, () => {
       sections: [section],
     } = processDocument(adoc);
 
-    expect(section.html).toContain(`<div class="${kls}">`);
-    expect(section.html).not.toContain(`paragraph`);
+    expect(section!.html).toContain(`<div class="${kls}">`);
+    expect(section!.html).not.toContain(`paragraph`);
   });
 
   test(`.old-style headings are broken up into custom markup`, () => {
@@ -227,7 +228,7 @@ describe(`createSourceSpec()`, () => {
       </h3>
     `.replace(/\s\s+/gm, ``);
 
-    expect(section.html).toContain(expected);
+    expect(section!.html).toContain(expected);
   });
 
   test(`.old-style.bold headings are broken up into custom markup`, () => {
@@ -245,7 +246,7 @@ describe(`createSourceSpec()`, () => {
       </h3>
     `.replace(/\s\s+/gm, ``);
 
-    expect(section.html).toContain(expected);
+    expect(section!.html).toContain(expected);
   });
 
   test(`adds classes signifying if chapters have signed (letter) chunks`, () => {
@@ -255,8 +256,8 @@ describe(`createSourceSpec()`, () => {
       sections: [sect1, sect2],
     } = processDocument(adoc);
 
-    expect(sect1.html).toMatch(/^<div class="sect1 chapter--no-signed-section"/);
-    expect(sect2.html).toMatch(/^<div class="sect1 chapter--has-signed-section"/);
+    expect(sect1!.html).toMatch(/^<div class="sect1 chapter--no-signed-section"/);
+    expect(sect2!.html).toMatch(/^<div class="sect1 chapter--has-signed-section"/);
   });
 
   it(`replaces asciidoctor verseblock markup with custom markup`, () => {
@@ -283,9 +284,9 @@ describe(`createSourceSpec()`, () => {
       </div>
     `).trim();
 
-    expect(section.html).toContain(expected);
-    expect(section.html).not.toContain(`verseblock`);
-    expect(section.html).not.toContain(`<pre class="content">`);
+    expect(section!.html).toContain(expected);
+    expect(section!.html).not.toContain(`verseblock`);
+    expect(section!.html).not.toContain(`<pre class="content">`);
   });
 
   it(`wraps poetry stanzas`, () => {
@@ -320,9 +321,9 @@ describe(`createSourceSpec()`, () => {
       </div>
     `).trim();
 
-    expect(section.html).toContain(expected);
-    expect(section.html).not.toContain(`verseblock`);
-    expect(section.html).not.toContain(`<pre class="content">`);
+    expect(section!.html).toContain(expected);
+    expect(section!.html).not.toContain(`verseblock`);
+    expect(section!.html).not.toContain(`<pre class="content">`);
   });
 
   it(`converts made-up syntax for poetry in footnotes`, () => {

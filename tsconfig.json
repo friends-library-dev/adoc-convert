@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "declaration": true,
     "outDir": "./dist",
     "rootDir": "./src",
-    "target": "ESNext",
+    "target": "ES2019",
     "module": "CommonJS",
     "incremental": true,
     "lib": ["ESNext"]

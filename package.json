@@ -23,15 +23,15 @@
   },
   "dependencies": {
     "@asciidoctor/core": "^2.0.2",
-    "@friends-library/adoc-utils": "^1.1.1",
-    "@friends-library/doc-html": "^1.1.1",
-    "@friends-library/types": "^1.1.1",
+    "@friends-library/adoc-utils": "^1.2.0",
+    "@friends-library/doc-html": "^1.2.0",
+    "@friends-library/types": "^3.0.0",
     "roman-numerals": "^0.3.2",
     "striptags": "^3.1.1",
     "uuid": "^3.3.3"
   },
   "devDependencies": {
-    "@friends-library/dev": "^4.1.10",
+    "@friends-library/dev": "^4.1.15",
     "@types/fs-extra": "^5.0.5",
     "@types/lodash": "^4.14.123",
     "@types/roman-numerals": "^0.3.0",
