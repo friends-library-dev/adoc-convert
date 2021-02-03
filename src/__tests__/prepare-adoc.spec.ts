@@ -1,3 +1,4 @@
+import { describe, expect, it, test } from '@jest/globals';
 import stripIndent from 'strip-indent';
 import { prepareAsciidoc } from '../prepare-adoc';
 

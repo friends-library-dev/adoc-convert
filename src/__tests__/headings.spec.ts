@@ -1,3 +1,4 @@
+import { describe, it, expect } from '@jest/globals';
 import { extractShortHeadings, extractHeading } from '../headings';
 
 describe(`extractShortHeadings()`, () => {
