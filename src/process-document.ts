@@ -2,31 +2,27 @@ import {
   Asciidoc,
   Epigraph,
   DocSection,
-  Notes,
   Html,
   AsciidocConversionLog,
 } from '@friends-library/types';
 import { extractShortHeadings, extractHeading } from './headings';
 import { extractEpigraphs } from './epigraphs';
 import adocToHtml from './adoc-to-html';
-import { extractNotes } from './notes';
 
 export default function processDocument(
   adoc: Asciidoc,
 ): {
   epigraphs: Epigraph[];
   sections: DocSection[];
-  notes: Notes;
   logs: AsciidocConversionLog[];
 } {
   const shortHeadings = extractShortHeadings(adoc);
   const [epigraphs, adocSansEpigraphs] = extractEpigraphs(adoc);
   const [completeHtml, logs] = adocToHtml(adocSansEpigraphs);
-  const [notes, htmlSansNotes] = extractNotes(completeHtml);
+  // const [notes, htmlSansNotes] = extractNotes(completeHtml);
   return {
-    notes,
     epigraphs,
-    sections: htmlToSections(htmlSansNotes, shortHeadings),
+    sections: htmlToSections('@TODO delete? was `htmlSansNotes`', shortHeadings),
     logs,
   };
 }
